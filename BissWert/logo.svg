@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- BissWert Logo: Coral-Squircle mit "Coin", aus dem ein Biss (kleiner Kreis) fehlt.
+       Steht für "Wert" (Münze/Coin) + "Biss" (die fehlende runde Ecke). -->
+  <rect width="40" height="40" rx="11" fill="#FF5A36"/>
+  <circle cx="19" cy="20.5" r="10.5" fill="#ffffff"/>
+  <circle cx="28.5" cy="12" r="7" fill="#FF5A36"/>
+</svg>
