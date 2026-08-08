@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rechtliches – BissWert</title>
+<meta name="robots" content="noindex" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="brand" aria-label="BissWert – Startseite">
+      <svg class="logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="40" height="40" rx="11" fill="#FF5A36"/>
+        <circle cx="19" cy="20.5" r="10.5" fill="#ffffff"/>
+        <circle cx="28.5" cy="12" r="7" fill="#FF5A36"/>
+      </svg>
+      <span class="brand-name">Biss<b>Wert</b></span>
+    </a>
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <a href="index.html#so-funktionierts">So funktioniert's</a>
+      <a href="index.html#results-section">Restaurants</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="index.html" class="btn btn-ghost btn-sm">Zur Startseite</a>
+    </div>
+  </div>
+</header>
+
+<section class="legal-shell">
+  <div class="container legal-layout">
+    <nav class="legal-nav" id="legal-nav" aria-label="Rechtliche Seiten">
+      <a href="#impressum">Impressum</a>
+      <a href="#agb">AGB</a>
+      <a href="#datenschutz">Datenschutz</a>
+      <a href="#widerruf">Widerrufsrecht</a>
+      <a href="#cookies">Cookie-Einstellungen</a>
+    </nav>
+    <div class="legal-doc" id="legal-doc">
+      <!-- Wird per JavaScript aus legal-content.js befüllt -->
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© <span id="year"></span> BissWert. Alle Rechte vorbehalten.</span>
+      <a href="index.html">Zurück zur Startseite</a>
+    </div>
+  </div>
+</footer>
+
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="js/legal-content.js"></script>
+<script>
+  (function () {
+    const doc = document.getElementById("legal-doc");
+    const order = ["impressum", "agb", "datenschutz", "widerruf", "cookies"];
+
+    function isPlaceholder(text) {
+      return /\[.*\]/.test(text);
+    }
+
+    doc.innerHTML = order.map((key) => {
+      const section = LEGAL_CONTENT[key];
+      const blocks = section.blocks.map((b) => {
+        const filled = !isPlaceholder(b.text);
+        return `
+          <div class="legal-block">
+            <h2>${b.heading}</h2>
+            <div class="placeholder-text ${filled ? "is-filled" : ""}">${b.text}</div>
+          </div>`;
+      }).join("");
+      return `
+        <section id="${key}" style="margin-bottom:72px; scroll-margin-top:90px;">
+          <h1>${section.title}</h1>
+          <p class="updated">${section.updated}</p>
+          ${blocks}
+        </section>`;
+    }).join("<hr style='border:none;border-top:1px solid var(--line); margin:0 0 56px;'>");
+
+    // Aktiven Link in der Seitennavigation markieren
+    const navLinks = document.querySelectorAll("#legal-nav a");
+    const sections = order.map((id) => document.getElementById(id));
+    function updateActive() {
+      let current = sections[0];
+      sections.forEach((s) => {
+        if (s.getBoundingClientRect().top - 120 <= 0) current = s;
+      });
+      navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + current.id));
+    }
+    document.addEventListener("scroll", updateActive, { passive: true });
+    updateActive();
+  })();
+</script>
+</body>
+</html>
